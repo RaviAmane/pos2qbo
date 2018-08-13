@@ -1,6 +1,6 @@
 # Shopify2QBO - Export your Shopify orders to QuickBooks Online.
 
-This is a Proof of Concept(PoC) application to export Shopify orders to QuickBooks Online.
+This is a Proof of Concept (PoC) application to export Shopify orders to QuickBooks Online.
 
 Many QuickBooks Online (QBO) users in Australia use Shopify ECommerce system as part of running their business. However, the lack of any integration between Shopify and QBO means the data does not flow between the systems. This forces the small business to perform a lot of manual steps to reconcile these transactions back to QBO, taking time away from running their small business.
 
