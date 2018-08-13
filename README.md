@@ -14,16 +14,16 @@ Many QuickBooks Online (QBO) users in Australia use Shopify ECommerce system as 
 In order to successfully run this application, you need:
 
 1. Java 1.8 or later.
-2. Apache Maven installed on your computer. You can get Maven at [Installing Apache Maven] (https://maven.apache.org/install.html)
+2. Apache Maven installed on your computer. You can get Maven at [Installing Apache Maven](https://maven.apache.org/install.html)
 3. A [developer.intuit.com](http://developer.intuit.com) account.
-4. A [sandbox QBO company] (https://developer.intuit.com/v2/ui#/sandbox).
-5. A [developer Shopify] (https://accounts.shopify.com/) account.
-6. A [Shopify development store] (https://www.shopify.com.au/partners).
+4. A [sandbox QBO company](https://developer.intuit.com/v2/ui#/sandbox).
+5. A [developer Shopify](https://accounts.shopify.com/) account.
+6. A [Shopify development store](https://www.shopify.com.au/partners).
 
 ## Running the code
 
 1. Clone the GitHub repository to your computer.
 2. cd to the project directory</li>
 3. Run the command:`mvn spring-boot:run`
-4. Wait until the terminal output displays the "Started PosToQboApplication in xxx seconds" message.
+4. Wait until the terminal output displays the `Started PosToQboApplication in xxx seconds` message.
 5. Your application should now be accessible at http://localhost:8080/ 
