@@ -3,6 +3,7 @@ package com.intuit.integration.pos2qbo.order;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,8 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.intuit.ipp.core.Context;
-import com.intuit.ipp.core.ServiceType;
+import com.intuit.integration.pos2qbo.DataServiceFactory;
 import com.intuit.ipp.data.EmailAddress;
 import com.intuit.ipp.data.Line;
 import com.intuit.ipp.data.LineDetailTypeEnum;
@@ -22,23 +22,22 @@ import com.intuit.ipp.data.SalesItemLineDetail;
 import com.intuit.ipp.data.SalesReceipt;
 import com.intuit.ipp.data.TxnTaxDetail;
 import com.intuit.ipp.exception.FMSException;
-import com.intuit.ipp.security.IAuthorizer;
-import com.intuit.ipp.security.OAuth2Authorizer;
 import com.intuit.ipp.services.BatchOperation;
 import com.intuit.ipp.services.DataService;
+import com.intuit.oauth2.exception.OAuthException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
 	private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);
 	
+	@Autowired
+	DataServiceFactory dataServiceFactory;
+	
 	@Override
-	public List<Result> createQboSalesReceipts(String qboCompanyId, String qboAccessToken, List<SalesReceipt> qboSalesReceipts) throws FMSException {
+	public List<Result> createQboSalesReceipts(String qboCompanyId, String qboRefreshToken, List<SalesReceipt> qboSalesReceipts) throws FMSException, OAuthException {
 
-		// Create an authorizer that we will pass to the context
-		IAuthorizer oAuth2 = new OAuth2Authorizer(qboAccessToken);
-		Context context = new Context(oAuth2, ServiceType.QBO, qboCompanyId);
-		DataService service = new DataService(context);
+		DataService service = dataServiceFactory.getDataService(qboCompanyId, qboRefreshToken);
 
 		BatchOperation batchOperation = new BatchOperation();
 		int batchId = 0;

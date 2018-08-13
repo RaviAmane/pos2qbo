@@ -2,6 +2,5 @@
 <intuit-config>
     <baseURL>
         <qbo>https://sandbox-quickbooks.api.intuit.com/v3/company</qbo> 
-<!--          <qbo>https://quickbooks.api.intuit.com/v3/company</qbo> -->
     </baseURL>
 </intuit-config>

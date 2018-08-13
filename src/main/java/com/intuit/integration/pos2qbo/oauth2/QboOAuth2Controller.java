@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
+
+import com.intuit.integration.pos2qbo.QboOAuth2PlatformClientFactory;
 import com.intuit.oauth2.client.OAuth2PlatformClient;
 import com.intuit.oauth2.config.OAuth2Config;
 import com.intuit.oauth2.config.Scope;
@@ -170,12 +172,12 @@ public class QboOAuth2Controller {
 	}
 
 	private void saveAccessDetails(OAuth2PlatformClient client, BearerTokenResponse bearerTokenResponse, HttpSession session, String qboCompanyId) {
-		// TODO Ideally we should save the retryToken and AccessToken in database.
+		// TODO Ideally we should save the retryToken in database.
 		// For the purpose of this PoC, we just save it in session.
 		try {
-			String accessToken = bearerTokenResponse.getAccessToken();
+//			String accessToken = bearerTokenResponse.getAccessToken();
 			String refreshToken = bearerTokenResponse.getRefreshToken();
-			session.setAttribute("qboAccessToken", accessToken);
+//			session.setAttribute("qboAccessToken", accessToken);
 			session.setAttribute("qboRefreshToken", refreshToken);
 			session.setAttribute("qboCompanyId", qboCompanyId);
 			logger.info("User [" + session.getAttribute("email") + "] successfully successfully connected to QBO company [" + qboCompanyId + "].");

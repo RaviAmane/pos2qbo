@@ -17,11 +17,6 @@ public class PosOrders implements Serializable{
 		return posOrders;
 	}
 
-//	@JsonProperty("draft_orders") // /admin/draft_orders.json returns json object "draft_orders"
-//	public List<PosOrder> getDraftPosOrders() {
-//		return posOrders;
-//	}
-
 	public void setPosOrders(List<PosOrder> posOrders) {
 		this.posOrders = posOrders;
 	}

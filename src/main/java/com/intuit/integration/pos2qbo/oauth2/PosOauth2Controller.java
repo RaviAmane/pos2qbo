@@ -4,12 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-import com.intuit.oauth2.config.OAuth2Config;
 import com.intuit.oauth2.exception.InvalidRequestException;
 
 @Controller
@@ -30,8 +30,20 @@ public class PosOauth2Controller {
 	
 	private static final Logger logger = Logger.getLogger(PosOauth2Controller.class);
 	
-	@Autowired
-	QboOAuth2PlatformClientFactory factory; // we use this factory to generate CSRF token
+	@Value("${POSOAuth2AppClientId}")
+	private String posClientId;
+
+	@Value("${POSOAuth2AppClientSecret}")
+	private String posClientSecret;
+	
+	@Value("${POSOAuth2AppRedirectUri}")
+	private String redirectUri;
+
+	@Value("${POSOAuth2AuthEndpoint}")
+	private String posOAuth2AuthEndpoint;
+
+	@Value("${POSOAuth2AccessTokenEndpoint}")
+	private String posOAuth2AccessTokenEndpoint;
 	    
 	// Controller mapping for connectToPos button
 	@PostMapping("/connectToPos")
@@ -40,15 +52,10 @@ public class PosOauth2Controller {
 		// Keep the pos company name that user passed in session for furure use
 		session.setAttribute("posCompanyName", request.getParameter("posCompanyName"));
 		
-		String redirectUri = factory.getPropertyValue("POSOAuth2AppRedirectUri");
-		String posClientId = factory.getPropertyValue("POSOAuth2AppClientId");
-
 		// Construct the pos auth URL based on the company name passed in
 		String posAuthEndpoint = constructPosEndpoint((String) session.getAttribute("posCompanyName"), true);
 
-		// We use QBO platform API to generate the CSRF token
-		OAuth2Config oauth2Config = factory.getOAuth2Config();
-		String csrf = oauth2Config.generateCSRFToken();
+		String csrf = generateCSRFToken();
 		session.setAttribute("posCsrfToken", csrf);
 		
 		try {
@@ -67,14 +74,6 @@ public class PosOauth2Controller {
 		return null;
 	}
 	
-	// This function constructs the pos OAuth2 endpoints depending on the posCompanyName
-	// Note: Shopify has different auth and accessToken end points.
-	private String constructPosEndpoint(String posCompanyName, boolean auth) {
-		String secondPartOfPosEndpointUrl = auth? 
-				factory.getPropertyValue("POSOAuth2AuthEndpoint") : factory.getPropertyValue("POSOAuth2AccessTokenEndpoint");
-		return "https://" + posCompanyName + secondPartOfPosEndpointUrl;
-	}
-
 	// This is the redirect handler we configured in POS.
 	// Authorization code has a short lifetime. Hence proceed to exchange the
 	// Authorization Code for BearerToken.
@@ -89,17 +88,14 @@ public class PosOauth2Controller {
 		}
 		else {
 			
-			// String posOAuthAccessTokenEndpoint = factory.getPropertyValue("POSOAuth2AccessTokenEndpoint");
 			String posOAuthAccessTokenEndpoint = constructPosEndpoint((String) session.getAttribute("posCompanyName"), false);
-			String clientId = factory.getPropertyValue("POSOAuth2AppClientId");
-			String clientSecret = factory.getPropertyValue("POSOAuth2AppClientSecret");
-			
+
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 			MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-			map.add("client_id", clientId);
-			map.add("client_secret", clientSecret);
+			map.add("client_id", posClientId);
+			map.add("client_secret", posClientSecret);
 			map.add("code", authCode);
 
 			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
@@ -141,4 +137,17 @@ public class PosOauth2Controller {
 		return StringUtils.stripEnd(sb.toString(), ",");
 	}
 
+	// This function constructs the pos OAuth2 endpoints depending on the posCompanyName
+	// Note: Shopify has different auth and accessToken end points.
+	private String constructPosEndpoint(String posCompanyName, boolean auth) {
+		String secondPartOfPosEndpointUrl = auth? posOAuth2AuthEndpoint : posOAuth2AccessTokenEndpoint;
+		return "https://" + posCompanyName + secondPartOfPosEndpointUrl;
+	}
+
+	// Our own CSRF token generator
+	private String generateCSRFToken() {
+		String csrf = UUID.randomUUID().toString();
+		csrf.replace("-", "");
+		return csrf;
+	}
 }

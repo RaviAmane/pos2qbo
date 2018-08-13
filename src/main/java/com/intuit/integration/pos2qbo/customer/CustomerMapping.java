@@ -1,23 +1,30 @@
 package com.intuit.integration.pos2qbo.customer;
 
+import java.math.BigInteger;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+// This entity holds the mappings between Shopify customers and QBO customers.
+// This way, the application checks if the customer is already added to QBO
+// before attempting to add it.
 @Entity
 public class CustomerMapping {
 	
 	@Id
 	@GeneratedValue
-	private Long id;
+	private BigInteger id;
 	private String posCompany;
 	private String qboCompany;
-	private String posCustomerId;
+	private BigInteger posCustomerId;
+	private String qboCustomerDisplayName;
 	private String qboCustomerId;
-	public Long getId() {
+	
+	public BigInteger getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 	public String getPosCompany() {
@@ -32,10 +39,10 @@ public class CustomerMapping {
 	public void setQboCompany(String qboCompany) {
 		this.qboCompany = qboCompany;
 	}
-	public String getPosCustomerId() {
+	public BigInteger getPosCustomerId() {
 		return posCustomerId;
 	}
-	public void setPosCustomerId(String posCustomerId) {
+	public void setPosCustomerId(BigInteger posCustomerId) {
 		this.posCustomerId = posCustomerId;
 	}
 	public String getQboCustomerId() {
@@ -43,5 +50,11 @@ public class CustomerMapping {
 	}
 	public void setQboCustomerId(String qboCustomerId) {
 		this.qboCustomerId = qboCustomerId;
-	}	
+	}
+	public String getQboCustomerDisplayName() {
+		return qboCustomerDisplayName;
+	}
+	public void setQboCustomerDisplayName(String qboCustomerDisplayName) {
+		this.qboCustomerDisplayName = qboCustomerDisplayName;
+	}
 }
