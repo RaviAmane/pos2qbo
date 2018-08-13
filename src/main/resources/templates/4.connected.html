@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<link href="./css/style.css" rel="stylesheet" type="text/css" />
+<title>pos2qbo</title>
+</head>
+<header class="page-header">
+	<h1>Shopify 2 QBO</h1>
+</header>
+<body>
+<script type="text/javascript">
+function setDefaultDates() {
+	document.getElementById('fromDate').valueAsDate = new Date();
+	document.getElementById('toDate').valueAsDate = new Date();
+}
+window.onload = setDefaultDates;
+</script>
+	<table align="center" style="width: 50%">
+		<tr>
+			<td style="padding: 1px 1px 1px 1px;">
+				<div align="center">
+					<img style="height: 80px" th:src="@{/images/POS.jpeg}"
+						src="./images/POS.jpeg" />
+				</div>
+			</td>
+			<td style="padding: 1px 1px 1px 1px;">
+				<div align="center">
+					<img style="height: 40px" th:src="@{/images/arrow.png}"
+						src="./images/arrow.png" />
+				</div>
+			</td>
+			<td style="padding: 1px 1px 1px 1px;">
+				<div align="center">
+					<img style="height: 80px" th:src="@{/images/QBO.png}"
+						src="./images/QBO.png" />
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table align="center" style="width: 50%">
+		<tr>
+			<td>
+				<div align="center">
+					<form method="post" action="/exportOrdersToQbo">
+						<input type="date" name="fromDate" id="fromDate"></input> TO <input type="date"
+							name="toDate" id="toDate"></input> <br>
+							<p><input type="checkbox" name="exportCustomers" value="true">Export Customer Details</p>
+						<button class="export" type="submit">Export Shopify
+							Orders to QBO</button>
+						<p>Press to export your Shopify orders to QBO as Sales
+							Receipts!</p>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>

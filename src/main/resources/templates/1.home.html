@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<title>pos2qbo</title>
+</head>
+<header class="page-header">
+    <h1>Shopify 2 QBO</h1>
+</header>
+<body>
+	<p>Start by signing in with Intuit!</p>
+	<div align="center" >
+		<a class="imgLink" th:onclick="'window.location.href = \'signInWithIntuit\''" href="#"> <img 
+			style="height: 60px" th:src="@{/images/SignInWithIntuit.png}" />
+		</a>
+	</div>
+</body>
+
+</html>

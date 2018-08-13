@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<link href="./css/style.css" rel="stylesheet" type="text/css" />
+<title>pos2qbo</title>
+</head>
+<header class="page-header">
+	<h1>Shopify 2 QBO</h1>
+</header>
+<body>
+
+	<div align="center" class="success"
+		th:if="${totalOrders != null }">
+		<h2 th:text="'Successfully exported ' + ${totalOrders} + ' orders to QBO!'"></h2>
+	</div>
+
+	<table align="center" style="width: 50%" border="solid black">
+		<col align="center">
+		<col align="center">
+		<col align="center">
+		<col align="center">
+		<tr>
+			<th>Date</th>
+			<th>QBO Entity</th>
+			<th>Result</th>
+			<th>Details</th>
+		</tr>
+		<th:block th:each="result : ${results}">
+			<tr>
+				<td align="center" th:text="${result.dateStr}"></td>
+				<td align="center">Sales Receipt</td>
+				<td align="center">Success</td>
+				<td align="center"><a th:href="@{${result.link}}">View in
+						QuickBooks</a></td>
+			</tr>
+		</th:block>
+	</table>
+	<br>
+</body>
+
+</html>

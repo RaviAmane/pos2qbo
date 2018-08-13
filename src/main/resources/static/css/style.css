@@ -1,0 +1,96 @@
+@charset "ISO-8859-1";
+
+.notConnected {
+	text-align: center;
+	padding: 07px;
+	background-color: green;
+	color: white;
+	font-size: 20px;
+	width: 140px;
+}
+
+.connected {
+	text-align: center;
+	padding: 07px;
+	background-color: red;
+	color: white;
+	font-size: 20px;
+	width: 140px;
+}
+
+.export {
+	text-align: center;
+	padding: 07px;
+	background-color: green;
+	color: white;
+	font-size: 20px;
+	width: 300px;
+}
+
+header.page-header {
+	background-color: #333333;
+	height: 50px;
+	align-items: center;
+	text-align: center;
+	padding-top: 15px;
+}
+
+h1 {
+	display: inline;
+	color: white;
+	font-weight: bold;
+	font-size: 1.6em;
+}
+
+p {
+	text-align: center;
+	font-size: 1.6em;
+}
+
+.welcome {
+	display: inline;
+	color: orange;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.success {
+	display: inline;
+	color: green;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+input[type=text] {
+    padding:5px; 
+    border:2px solid #ccc; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    height: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+input[type=text]:focus {
+    border-color:black;
+}
+
+input[type=date] {
+    padding:5px; 
+    border:2px solid #ccc; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    height: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+input[type=date]:focus {
+    border-color:black;
+}
+
+input[type="checkbox"] {
+  width: 20px; /*Desired width*/
+  height: 20px; /*Desired height*/
+}
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+function setDefaultDates() {
+	document.getElementById('fromDate').valueAsDate = new Date();
+	document.getElementById('toDate').valueAsDate = new Date();
+	alert('Hello');
+}
+window.onload = setDefaultDates;
+</script>
+						<input type="date" name="fromDate" id="fromDate"></input> TO <input type="date"
+							name="toDate" id="toDate"></input> <br>
+
+</body>
+</html>

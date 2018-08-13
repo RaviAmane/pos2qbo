@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<link href="./css/style.css" rel="stylesheet" type="text/css" />
+<title>pos2qbo</title>
+</head>
+<header class="page-header">
+	<h1>Shopify 2 QBO</h1>
+</header>
+<body>
+	<script>
+  function launchPopup(path) {
+    var win;
+    var checkConnect;
+    var parameters = "location=1, width=800, height=650";
+    parameters += ", left = " + (screen.width - 800) / 2 + ", top = " + (screen.height - 650) / 2;
+    win = window.open(path, 'connectPopup', parameters);
+  }
+</script>
+
+	<div align="center" class="welcome"
+		th:if="${session.givenName != null }">
+		<h2 th:text="'Welcome, ' + ${session.givenName} + '!'"></h2>
+	</div>
+	<p>
+		<b>Connect to Shopify!</b>
+	</p>
+	<p>No changes will be made to your QuickBooks account until setup
+		is complete.</p>
+	<p>
+		<b>Enter your shop name!</b>
+	</p>
+	<form method="post" action="/connectToPos">
+		<table align="center" style="width: 50%">
+			<tr>
+				<td>
+					<div align="center">
+						<input type="text" name="posCompanyName" placeholder="Shop Name"></input><br>
+					</div>
+					<div align="center">
+						<img style="height: 120px" th:src="@{/images/POS.jpeg}"
+							src="./images/POS.jpeg" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div align="center">
+						<button class="notConnected" type="submit">Connect</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
