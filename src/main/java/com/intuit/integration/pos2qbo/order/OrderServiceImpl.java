@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void mapOrderToSalesReceipt(PosOrder posOrder, SalesReceipt salesReceipt) {
+	public void mapOrderToSalesReceipt(PosOrder posOrder, SalesReceipt salesReceipt, ReferenceType taxcodeRef) {
 
 		int lindId = 1;
 		List<Line> qboLines = new ArrayList<Line>();
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 			Line qboLine = new Line();
 			qboLine.setId("" + lindId++);
 			qboLine.setDescription(posLineItem.getName());
-			mapLineItems(posLineItem, qboLine);
+			mapLineItems(posLineItem, qboLine, taxcodeRef);
 			qboLines.add(qboLine);
 		}
 		salesReceipt.setLine(qboLines);
@@ -139,17 +139,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void mapLineItems(PosLineItem posLineItem, Line qboLine) {
+	public void mapLineItems(PosLineItem posLineItem, Line qboLine, ReferenceType taxcodeRef) {
 
 		SalesItemLineDetail qboSalesItemLineDetail = new SalesItemLineDetail();
 		qboSalesItemLineDetail.setUnitPrice(posLineItem.getPrice());
 		qboSalesItemLineDetail.setQty(posLineItem.getQuantity());
 
-		for (PosTaxLine posTaxLine : posLineItem.getTaxLines()) {
-			// TaxCode qboTaxCode = new TaxCode();
-			qboSalesItemLineDetail.setTaxInclusiveAmt(posTaxLine.getPrice());
-		}
-
+		qboSalesItemLineDetail.setTaxInclusiveAmt(posLineItem.getTaxLines().get(0).getPrice());
+		qboSalesItemLineDetail.setTaxCodeRef(taxcodeRef);
+		
 		qboLine.setSalesItemLineDetail(qboSalesItemLineDetail);
 		qboLine.setDescription(posLineItem.getTitle());
 		qboLine.setAmount(posLineItem.getPrice());

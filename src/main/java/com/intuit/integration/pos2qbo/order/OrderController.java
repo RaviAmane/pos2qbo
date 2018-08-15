@@ -15,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.intuit.integration.pos2qbo.customer.CustomerService;
+import com.intuit.integration.pos2qbo.helper.TaxCodeInfo;
 import com.intuit.ipp.data.ReferenceType;
 import com.intuit.ipp.data.SalesReceipt;
+import com.intuit.ipp.data.TaxCode;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.oauth2.exception.OAuthException;
 
@@ -28,6 +30,9 @@ public class OrderController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private TaxCodeInfo taxCodeInfo;
 
 	@Value("${QBODeepLinkPrefix}")
 	private String qboDeepLinkPrefix;
@@ -46,6 +51,9 @@ public class OrderController {
 		String qboRefreshToken = (String) session.getAttribute("qboRefreshToken");
 		String posCompany = (String) session.getAttribute("posCompanyName");
 		String posAccessToken = (String) session.getAttribute("posAccessToken");
+		
+		TaxCode taxcode = taxCodeInfo.getTaxCode(qboCompanyId, qboRefreshToken);
+		ReferenceType taxcodeRef = taxCodeInfo.getTaxCodeRef(taxcode);
 
 		// Get pos orders
 		PosOrders posOrders = posOrderService.getPosOrders(posCompany, posAccessToken, fromDate, toDate);
@@ -59,7 +67,7 @@ public class OrderController {
 						posCompany, posOrder.getCustomer());
 				qboSalesReceipt.setCustomerRef(customerRef);
 			}
-			posOrderService.mapOrderToSalesReceipt(posOrder, qboSalesReceipt);
+			posOrderService.mapOrderToSalesReceipt(posOrder, qboSalesReceipt, taxcodeRef);
 			qboSalesReceipts.add(qboSalesReceipt);
 		}
 
