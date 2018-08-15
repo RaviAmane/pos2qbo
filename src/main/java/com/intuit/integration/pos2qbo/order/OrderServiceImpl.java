@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 
 	private String constructPosApiUrl(String posCompanyName, String fromDate, String toDate) {
 		String secondPartOfPosEndpointUrl = ".myshopify.com/admin/orders.json?financial_status=paid" +
-											"&updated_at_min=" + fromDate + "&updated_at_max=" + toDate;
+											"&created_at_min=" + fromDate + "&created_at_max=" + toDate;
 		logger.info("POS URL: " + "https://" + posCompanyName + secondPartOfPosEndpointUrl);
 		return "https://" + posCompanyName + secondPartOfPosEndpointUrl;
 	}
